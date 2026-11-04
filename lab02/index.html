@@ -9,7 +9,17 @@
         .shots figure { margin: 0; width: 150px; }
         .shots img { width: 150px; height: auto; border: 2px solid #00264d; border-radius: 10px; display: block; }
         .shots figcaption { font-size: 13px; line-height: 1.4; margin-top: 6px; }
-        .doc-frame { width: 100%; height: 900px; border: 2px solid #00264d; border-radius: 8px; background: #ffffff; }
+        .doc { margin-top: 16px; padding: 28px 32px; background: #ffffff; border: 1px solid #c9ced6; border-radius: 8px; color: #1f1f1f; line-height: 1.55; max-width: 760px; }
+        .doc h3 { font-size: 22px; margin: 0 0 6px; color: #003566; }
+        .doc h4 { font-size: 17px; margin: 24px 0 8px; color: #1f1f1f; }
+        .doc p { margin: 0 0 10px; }
+        .doc ul { margin: 0 0 10px; padding-left: 22px; }
+        .doc li { margin-bottom: 4px; }
+        .doc table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0 4px; }
+        .doc th, .doc td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #dadce0; vertical-align: top; }
+        .doc th { background: #f1f3f4; color: #5f6368; }
+        .doc td:last-child { font-weight: bold; }
+        .note { font-size: 13px; color: #4a4e57; }
         button, .btn { display: inline-block; background-color: #003566; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-family: Arial, sans-serif; font-weight: bold; font-size: 13px; line-height: normal; text-decoration: none; cursor: pointer; }
         button, .btn { transition: background-color 160ms ease-out; }
         @media (hover: hover) and (pointer: fine) { button:hover, .btn:hover { background-color: #00509d; } }
@@ -17,7 +27,7 @@
         @media (max-width: 600px) {
             .shots figure, .shots img { width: 46%; }
             .shots figure img { width: 100%; }
-            .doc-frame { height: 600px; }
+            .doc { padding: 18px; }
         }
     </style>
 </head>
@@ -39,11 +49,12 @@
         <p>
             App: <b>Google Maps</b>. Feature: <b>Add a stop</b>. I documented how a stop is added to a route today, analyzed the experience and designed a new flow that takes 2 steps instead of 5 to 6.
         </p>
+        <p class="note">Student project for a UX/UI class. Not affiliated with or endorsed by Google. The screenshots show the real app; the proposal and prototype are my own mockups.</p>
 
-        <!-- The lab report, read from Google Docs with the same getElementById / innerHTML idea -->
-        <h2 id="report">Lab report (Google Docs)</h2>
+        <!-- The lab report: the button copies the document below into the page (getElementById / innerHTML) -->
+        <h2 id="report">Lab report</h2>
         <p>
-            <button type="button" onclick="document.getElementById('doc').innerHTML = readDocument()">
+            <button type="button" onclick="document.getElementById('doc').innerHTML = document.getElementById('docContent').innerHTML">
                 Click me to read the document
             </button>
         </p>
@@ -79,20 +90,44 @@
 
     </div>
 
-    <script>
-        // Google Doc to show in the page.
-        // 1. In Google Docs: Share → General access → "Anyone with the link" (Viewer).
-        // 2. Copy the ID from the link: docs.google.com/document/d/THIS_PART/edit
-        // 3. Paste it here. While it is empty, the page shows the PDF copy of the document.
-        var GOOGLE_DOC_ID = "1-zL1FO2abofV1wmi1WR2STwR0yaV2QszB_UqbsDHkco";
+    <!-- Text of the lab document (same content as the Google Doc) -->
+    <template id="docContent">
+        <article class="doc">
+            <h3>Redesigning a digital experience</h3>
+            <p><b>Google Maps: Add a stop.</b> Task: plan a walk to Taquería Mamut, then add The Home Depot and Metria Hotel as stops on the way and put them in order.</p>
 
-        function readDocument() {
-            var src = GOOGLE_DOC_ID
-                ? "https://docs.google.com/document/d/" + GOOGLE_DOC_ID + "/preview"
-                : "Lab02-Add-a-Stop.pdf";
-            return '<iframe class="doc-frame" src="' + src + '" title="Lab 02 document"></iframe>';
-        }
-    </script>
+            <h4>Current process</h4>
+            <p>Route preview → ⋮ menu → Edit stops → Choose destination → Search and pick → Drag to reorder → Done. The screenshots are in the Current process section below.</p>
+
+            <h4>UX analysis</h4>
+            <p>Adding a stop takes six screens and five to six actions: open the three-dot menu, tap Edit stops, tap the empty field, search the place, drag it into position and tap Done. The feature exists, but it is hard to find and the result is hard to trust. The “Add stops” button is cut off at the edge of the bottom bar, the menu calls it “Edit stops”, and every new place is added after the destination. The list never says how many minutes each place adds or which order is fastest: swapping two stops changed the trip from 1 hr 32 min to 2 hr 7 min without any warning.</p>
+            <ul>
+                <li><b>How many steps?</b> Six screens, five to six actions for one stop.</li>
+                <li><b>Is the navigation clear?</b> Partly. The edit list looks like the route card; only “Done” tells you that you are editing.</li>
+                <li><b>Is the feature easy to find?</b> No. The button is cut off and the menu option is the second of seven.</li>
+                <li><b>Are the buttons easy to identify?</b> Partly. The ≡ handles and ✕ buttons are small and gray, and the empty “Choose destination” field looks required.</li>
+                <li><b>Is the information organized?</b> The list covers the top third of the map and only shows the total time, never the time per stop.</li>
+                <li><b>Confusing moments?</b> The original destination turns into stop A, and the order changes the trip by 35 minutes with no hint.</li>
+                <li><b>What would I change?</b> Put “Add stop” inside the route sheet, show the minutes each place adds, place the stop automatically and use Undo instead of Done.</li>
+            </ul>
+
+            <h4>Design proposal</h4>
+            <p>This new UX is easier to find and faster to use. It takes just 2 steps: <b>Add stop → Tap a place</b>.</p>
+            <p><b>Proposed flow:</b> Directions → Add stop → Pick a category or search → Tap a place → Start</p>
+            <table>
+                <tr><th></th><th>Current</th><th>Proposed</th></tr>
+                <tr><td>Actions to add one stop</td><td>5 to 6</td><td>2</td></tr>
+                <tr><td>Where the option is</td><td>Cut-off button, or ⋮ menu → Edit stops</td><td>A row inside the route list</td></tr>
+                <tr><td>Time each place adds</td><td>Only the total, after choosing</td><td>On every result, before choosing</td></tr>
+                <tr><td>Where the new stop lands</td><td>After the destination</td><td>Where it adds the least time</td></tr>
+                <tr><td>Fixing the order</td><td>Drag by hand, no hint of the fastest order</td><td>Automatic; dragging is optional</td></tr>
+                <tr><td>Confirmation</td><td>Done</td><td>Changes apply live, with Undo</td></tr>
+            </table>
+
+            <h4>Justification</h4>
+            <p>The current flow has the feature but hides it behind a cut-off button and a generic menu, and it makes the user fix the order by hand. Moving “Add stop” into the route list puts it where the thumb already is, so the feature is visible without exploring. Showing the minutes each place adds turns a blind choice into an informed one, and inserting the stop in the fastest position keeps the original destination at the end and removes the need to drag. Replacing Done with Undo keeps the user in control without an extra confirmation. Categories like Gas, Coffee and Food let the user recognize instead of type, and the same sheet works before and during the trip. The result is 2 steps instead of 5 to 6, with less cognitive load and fewer chances of ending up with a slower route by accident.</p>
+        </article>
+    </template>
 
 </body>
 </html>

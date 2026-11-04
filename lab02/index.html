@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lab 02</title>
+    <style>
+        .shots { display: flex; gap: 14px; flex-wrap: wrap; }
+        .shots figure { margin: 0; width: 150px; }
+        .shots img { width: 150px; height: auto; border: 2px solid #00264d; border-radius: 10px; display: block; }
+        .shots figcaption { font-size: 13px; line-height: 1.4; margin-top: 6px; }
+        .doc-frame { width: 100%; height: 900px; border: 2px solid #00264d; border-radius: 8px; background: #ffffff; }
+        button { background-color: #003566; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        button:focus-visible, a:focus-visible { outline: 3px solid #1a73e8; outline-offset: 2px; }
+        @media (max-width: 600px) {
+            .shots figure, .shots img { width: 46%; }
+            .shots figure img { width: 100%; }
+            .doc-frame { height: 600px; }
+        }
+    </style>
+</head>
+<body style="background-color: #e8eaed; font-family: Arial, sans-serif; color: #00264d; margin: 20px;">
+
+    <div style="background-color: rgba(255, 255, 255, 0.95); padding: 20px; border: 2px solid #00264d; max-width: 1000px; margin: 0 auto;">
+
+        <!-- Simple navigation menu -->
+        <p>
+            <a href="../index.html">Main Menu</a> |
+            <a href="../labs.html">Labs</a> |
+            <a href="#report">Document</a> |
+            <a href="#prototype">Prototype</a>
+        </p>
+
+        <hr>
+
+        <h1 style="color: #003566;">Lab 02 — Redesigning a Digital Experience</h1>
+        <p>
+            <b>Marco Antonio Hernández Roque</b> - A01709802<br>
+            Implementation of the Internet of Things · Group 502
+        </p>
+        <p>
+            App: <b>Google Maps</b>. Feature: <b>Add a stop</b>. I documented how a stop is added to a route today, analyzed the experience and designed a new flow that takes 2 steps instead of 5 to 6.
+        </p>
+
+        <!-- My first javascript -->
+        <h2>My first javascript</h2>
+
+        <button type="button" onclick="document.getElementById('demo').innerHTML = Date()">
+            Click me to display date and time
+        </button>
+        <p id="demo"></p>
+
+        <!-- The lab report, read from Google Docs with the same getElementById / innerHTML idea -->
+        <h2 id="report">Lab report (Google Docs)</h2>
+        <p>
+            <button type="button" onclick="document.getElementById('doc').innerHTML = readDocument()">
+                Click me to read the document
+            </button>
+            &nbsp;<a id="docLink" href="Lab02-Add-a-Stop.pdf" target="_blank" rel="noopener">Open in a new tab</a>
+        </p>
+        <div id="doc"></div>
+
+        <!-- Before and after, at a glance -->
+        <h2>Current process</h2>
+        <p>Route preview → ⋮ menu → Edit stops → Choose destination → Drag to reorder → Done</p>
+        <div class="shots">
+            <figure><img src="img/current-01.jpg" alt="Route preview to Taquería Mamut, 16 min walking" width="738" height="1600" loading="lazy"><figcaption><b>1.</b> Route preview. “Add stops” is cut off at the edge.</figcaption></figure>
+            <figure><img src="img/current-02.jpg" alt="Three-dot menu with Edit stops" width="738" height="1600" loading="lazy"><figcaption><b>2.</b> Three-dot menu → Edit stops.</figcaption></figure>
+            <figure><img src="img/current-03.jpg" alt="Edit stops list with Taquería Mamut and The Home Depot, 1 hr 32 min" width="738" height="1600" loading="lazy"><figcaption><b>3.</b> The new stop goes after the destination.</figcaption></figure>
+            <figure><img src="img/current-04.jpg" alt="Stops reordered, 2 hr 7 min" width="738" height="1600" loading="lazy"><figcaption><b>4.</b> Reordering makes the trip 2 hr 7 min.</figcaption></figure>
+            <figure><img src="img/current-05.jpg" alt="Third stop Metria Hotel added, 2 hr 11 min" width="738" height="1600" loading="lazy"><figcaption><b>5.</b> A third stop lands at the end.</figcaption></figure>
+            <figure><img src="img/current-06.jpg" alt="Final order, 2 hr 6 min, Done" width="738" height="1600" loading="lazy"><figcaption><b>6.</b> Reorder again, then Done.</figcaption></figure>
+        </div>
+
+        <h2>Design proposal</h2>
+        <p>Just 2 steps: <b>Add stop → Tap a place</b></p>
+        <div class="shots">
+            <figure><img src="img/proposal-1.png" alt="Proposal: Add stop row inside the route list" width="780" height="1688" loading="lazy"><figcaption><b>A.</b> “Add stop” inside the route list.</figcaption></figure>
+            <figure><img src="img/proposal-2.png" alt="Proposal: Add a stop sheet with categories and minutes added" width="780" height="1688" loading="lazy"><figcaption><b>B.</b> Every place shows the minutes it adds.</figcaption></figure>
+            <figure><img src="img/proposal-3.png" alt="Proposal: stop placed automatically with Undo" width="780" height="1688" loading="lazy"><figcaption><b>C.</b> Placed where it adds the least time, with Undo.</figcaption></figure>
+            <figure><img src="img/proposal-4.png" alt="Proposal: Add stop available while navigating" width="780" height="1688" loading="lazy"><figcaption><b>D.</b> Same sheet during the trip.</figcaption></figure>
+        </div>
+
+        <!-- Interactive prototype (Google Maps JavaScript API when a key is set in prototype/config.js) -->
+        <h2 id="prototype">Interactive prototype</h2>
+        <p>Tap <b>Add stop</b>, pick a category and tap a place. <a href="prototype/prototype.html" target="_blank" rel="noopener">Open full screen</a></p>
+        <iframe src="prototype/prototype.html?embed" title="Interactive prototype: add a stop" loading="lazy"
+                style="width: 100%; max-width: 390px; height: 780px; border: 8px solid #101114; border-radius: 40px; display: block;"></iframe>
+
+    </div>
+
+    <script>
+        // Google Doc to show in the page.
+        // 1. In Google Docs: Share → General access → "Anyone with the link" (Viewer).
+        // 2. Copy the ID from the link: docs.google.com/document/d/THIS_PART/edit
+        // 3. Paste it here. While it is empty, the page shows the PDF copy of the document.
+        var GOOGLE_DOC_ID = "";
+
+        function readDocument() {
+            var src = GOOGLE_DOC_ID
+                ? "https://docs.google.com/document/d/" + GOOGLE_DOC_ID + "/preview"
+                : "Lab02-Add-a-Stop.pdf";
+            return '<iframe class="doc-frame" src="' + src + '" title="Lab 02 document"></iframe>' +
+                   '<p style="font-size: 13px;">Opened: ' + Date() + '</p>';
+        }
+
+        if (GOOGLE_DOC_ID) {
+            var link = document.getElementById("docLink");
+            link.href = "https://docs.google.com/document/d/" + GOOGLE_DOC_ID + "/edit?usp=sharing";
+            link.textContent = "Open in Google Docs";
+        }
+    </script>
+
+</body>
+</html>

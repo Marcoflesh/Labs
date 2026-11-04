@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Add a Stop Prototype</title>
+  <meta name="description" content="Interactive prototype for Lab 2: add a stop to a Google Maps driving route in two actions.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315171C'/%3E%3Cpath d='M9 23c4-8 10-6 14-14' fill='none' stroke='%231D5BD8' stroke-width='3.5' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='15.6' r='3.2' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preload" href="assets/fonts/roboto-flex-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="prototype.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="device">
+      <div class="app" id="app" data-view="route" data-nav="0">
+        <div class="map" id="map" role="img" aria-label="Map of the route"></div>
+
+        <div class="topbar" id="topbar">
+          <button class="fab" type="button" aria-label="Back to search">
+            <svg class="i" aria-hidden="true"><use href="assets/icons.svg#i-arrow_back"/></svg>
+          </button>
+          <div class="modes" role="group" aria-label="Travel mode">
+            <button class="mode" type="button" aria-pressed="true" data-mode="drive"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#i-directions_car"/></svg><span>Drive</span></button>
+            <button class="mode" type="button" aria-pressed="false" data-mode="transit" aria-label="Transit"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#i-directions_bus"/></svg><span>Transit</span></button>
+            <button class="mode" type="button" aria-pressed="false" data-mode="walk" aria-label="Walk"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#i-directions_walk"/></svg><span>Walk</span></button>
+          </div>
+        </div>
+
+        <div class="badge" id="badge"><span class="dot"></span><span id="badgeText">Loading map</span></div>
+
+        <div class="navcard" id="navcard" aria-live="polite">
+          <svg aria-hidden="true"><use href="assets/icons.svg#i-straight"/></svg>
+          <div><b id="navTitle">Head south</b><small id="navSub">Toward your stop</small></div>
+        </div>
+
+        <section class="sheet" id="sheet" aria-label="Route details">
+          <div class="grabber" aria-hidden="true"></div>
+          <div class="views">
+
+            <div class="view" id="viewRoute" aria-hidden="false">
+              <div class="summary">
+                <span class="eta"><span id="etaMin">--</span><small>min</small></span>
+                <span class="delta" id="delta"></span>
+                <span class="meta" style="flex-basis:100%"><span id="dist">--</span> · arrive <span id="arrive">--</span></span>
+              </div>
+              <ol class="stops" id="stops" aria-label="Stops on this route"></ol>
+              <div class="actions">
+                <button class="btn btn-primary" type="button" id="startBtn"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#i-navigation-f"/></svg>Start</button>
+              </div>
+            </div>
+
+            <div class="view" id="viewAdd" aria-hidden="true">
+              <div class="add-head">
+                <button class="row-btn" type="button" id="closeAdd" aria-label="Close add a stop">
+                  <svg class="i" aria-hidden="true"><use href="assets/icons.svg#i-close"/></svg>
+                </button>
+                <h2>Add a stop</h2>
+              </div>
+              <label class="search">
+                <svg class="i" aria-hidden="true"><use href="assets/icons.svg#i-search"/></svg>
+                <span class="sr">Search for a place</span>
+                <input id="q" type="search" name="stop-search" placeholder="Search places on the way" autocomplete="off" spellcheck="false" enterkeyhint="search">
+              </label>
+              <div class="chips" id="chips" role="radiogroup" aria-label="Categories along your route"></div>
+              <p class="list-label" id="listLabel">Along your route</p>
+              <ul class="results" id="results" aria-live="polite"></ul>
+            </div>
+
+            <div class="view" id="viewNav" aria-hidden="true">
+              <div class="nav-sum">
+                <div class="txt"><b id="navEta">--</b><small id="navMeta">--</small></div>
+              </div>
+              <div class="nav-actions">
+                <button class="btn btn-tonal" type="button" id="navAdd"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#i-add_location_alt"/></svg>Add stop</button>
+                <button class="btn btn-exit" type="button" id="exitNav">Exit</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <div class="snack" id="snack" role="status"><span id="snackText"></span><button type="button" id="undoBtn">Undo</button></div>
+        <div class="sr" aria-live="polite" id="live"></div>
+      </div>
+    </div>
+    <p class="stage-note">Lab 2 prototype. Tap <b>Add stop</b>, pick a category, tap a place. <a href="../">Back to Lab 02</a></p>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/Flip.min.js"></script>
+  <script src="prototype.js"></script>
+</body>
+</html>
